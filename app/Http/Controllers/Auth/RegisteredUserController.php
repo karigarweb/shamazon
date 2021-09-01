@@ -9,8 +9,10 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -21,7 +23,8 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return view('auth.register');
+        $roles = Role::all()->pluck('name','id')->toArray();
+        return view('auth.register', compact('roles'));
     }
 
     /**
@@ -34,20 +37,23 @@ class RegisteredUserController extends Controller
      */
     public function store(RegisterUserRequest $request)
     {
-        $request->validate([
+        return DB::transaction(function() use ($request)
+        {
+            $user = User::create([
+                'name'      => $request->name,
+                'email'     => $request->email,
+                'password'  => Hash::make($request->password),
+            ]);
 
-        ]);
+            $role = Role::where('id', $request->role_id)->first();
+            $user->assignRole($role);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+            event(new Registered($user));
 
-        event(new Registered($user));
+            Auth::login($user);
 
-        Auth::login($user);
+            return redirect(RouteServiceProvider::HOME);
+        });
 
-        return redirect(RouteServiceProvider::HOME);
     }
 }

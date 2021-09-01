@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +17,15 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function ()
 {
     Route::get('/', function () {
-        return view('welcome');
+        return view('dashboard');
     });
 
     Route::get('/dashboard', function ()
     {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::resource('products', ProductController::class);
 
 });
 
