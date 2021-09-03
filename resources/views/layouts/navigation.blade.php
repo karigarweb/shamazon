@@ -22,6 +22,18 @@
                         </x-nav-link>
                     @endif
 
+                    @if(auth()->user()->hasAnyRole(\App\Enums\Roles::customer()->value))
+
+                        <x-nav-link :href="route('shop')" :active="request()->routeIs('shop')">
+                            {{ __('Shop') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('cart')" :active="request()->routeIs('cart')">
+                            {{ __('Cart') }}
+                        </x-nav-link>
+
+                    @endif
+
 
 
                 </div>

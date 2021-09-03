@@ -12,6 +12,11 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
+
+        <script type="text/javascript">
+            let baseUrl = '{{url('/')}}';
+        </script>
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
@@ -37,6 +42,8 @@
         </div>
     </body>
 
+
+    @include('layouts.partials.scripts')
     @stack('js')
 
 

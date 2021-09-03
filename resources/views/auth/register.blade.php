@@ -47,7 +47,7 @@
 
             <div class="mt-4">
                 <x-label for="role_id" :value="__('Role')" />
-                <x-select id="role_id" name="role_id" :options="$roles" />
+                <x-select class="w-full" id="role_id" name="role_id" :options="$roles" />
             </div>
 
             <div class="flex items-center justify-end mt-4">
