@@ -28,7 +28,7 @@ class ShopController extends Controller
     public function addToCart(AddToCartRequest $request)
     {
         Cart::add($request->product_id, $request->qty);
-        return response()->json(['message' => true]);
+        return response()->json(['message' => true, 'total' => Cart::total()]);
     }
 
 

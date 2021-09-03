@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 class Cart
 {
     public  $instance;
+
     /**
      * Cart constructor.
      * @param SessionManager $session
@@ -80,5 +81,21 @@ class Cart
         session()->put('cart', $content);
 
         return true;
+    }
+
+    /**
+     * get cart total
+     *
+     * @return string
+     */
+    public function total()
+    {
+        $content = $this->getContent();
+
+        $total = $content->reduce(function ($total, $item) {
+            return $total + ($item['qty'] * $item['price'] );
+        }, 0);
+
+        return number_format($total , 2);
     }
 }

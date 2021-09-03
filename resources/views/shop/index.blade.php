@@ -65,6 +65,7 @@
                 let request = new Request();
                 request.send("post","/shop/add-to-cart" , {product_id:productId, qty:qty}).then((res)=>
                 {
+                    $('#cartTotal').html(res.total)
                     toastr["success"]("", "Product added to your cart successfully");
                 }).catch((error) => {
                     toastr["error"]("Success", error);

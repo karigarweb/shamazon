@@ -36,6 +36,10 @@
                                     <td class="p-3 ">{{($product['price'] * $product['qty'])}}</td>
                                 </tr>
                             @endforeach
+                            <tr>
+                                <td colspan="3">&nbsp;</td>
+                                <td class="text-center font-bold text-blue-900">{{\App\Facades\Cart::total()}}</td>
+                            </tr>
                         @else
                             <tr class="w-full font-light text-gray-700 bg-gray-100 whitespace-no-wrap border border-b-0">
                                 <td colspan="4" class="py-3 text-xl">Your cart is empty</td>
