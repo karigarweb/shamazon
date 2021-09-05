@@ -13,9 +13,9 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
                 <div class="p-6 bg-white border-b border-gray-200 ">
 
-                    <button class="" onclick="handleDelete()">
+                    {{--<button class="" onclick="handleDelete()">
                         <span class="fill-current text-red-500 material-icons">Clear Cart</span>
-                    </button>
+                    </button>--}}
 
                     <table class="w-full text-center rounded-lg mt-4">
                         <thead>
@@ -48,7 +48,15 @@
                         </tbody>
                     </table>
 
+                    <form method="POST" action="{{ route('orders.place') }}">
+                        @csrf
 
+                        <x-button class="text-lg bg-blue-700 text-white" onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                            {{ __('Place Order') }}
+                        </x-button>
+
+                    </form>
 
                 </div>
             </div>

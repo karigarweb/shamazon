@@ -10,8 +10,26 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-alert class="mb-5" />
 
+
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
-                <div class="p-6 bg-white border-b border-gray-200 ">
+
+
+                    <form method="POST" action="{{ route('orders.place') }}" class="float-right py-4 px-2 mr-4">
+
+                        @csrf
+
+                        <button  class="btn-place-order inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150 text-lg bg-blue-700 text-white"
+                                 {{ ((\App\Facades\Cart::count() == 0) ? 'disabled' : '') }}
+                                  onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                            {{ __('Place Order') }}
+                        </button>
+
+                    </form>
+
+
+                <div class="p-6 bg-white border-b border-gray-200 mt-4 ">
 
                    @foreach($products as $sellerName => $sellerProducts)
                        <h2 class="text-blue-600 text-2xl">{{$sellerName}}</h2>
@@ -65,7 +83,8 @@
                 let request = new Request();
                 request.send("post","/shop/add-to-cart" , {product_id:productId, qty:qty}).then((res)=>
                 {
-                    $('#cartTotal').html(res.total)
+                    $('#cartTotal').html(res.total);
+                    $('.btn-place-order').removeAttr('disabled')
                     toastr["success"]("", "Product added to your cart successfully");
                 }).catch((error) => {
                     toastr["error"]("Success", error);

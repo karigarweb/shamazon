@@ -17,9 +17,15 @@
                     </x-nav-link>
 
                     @if(auth()->user()->hasAnyRole(\App\Enums\Roles::seller()->label))
+
                         <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
                             {{ __('Products') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
+                            {{ __('Orders') }}
+                        </x-nav-link>
+
                     @endif
 
                     @if(auth()->user()->hasAnyRole(\App\Enums\Roles::customer()->value))
@@ -42,7 +48,11 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
 
-                <span class="px-2" >Cart Total <span id="cartTotal">{{\App\Facades\Cart::total()}}</span></span>
+                <x-nav-link class="px-5" :href="route('cart')" :active="request()->routeIs('cart')">
+                    <span class="px-2" > {{ __('Total') }} </span> <span id="cartTotal" class="font-bold">{{\App\Facades\Cart::total()}}</span>
+                </x-nav-link>
+
+
 
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">

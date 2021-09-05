@@ -43,6 +43,15 @@ class Cart
     }
 
     /**
+     * get total items in cart
+     * @return int
+     */
+    public function count()
+    {
+        return $this->getContent()->count();
+    }
+
+    /**
      * delete all products from cart
      */
     public function clear()
