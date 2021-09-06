@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Product::class, 'product');
+    }
+
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -32,9 +37,8 @@ class ProductController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        $product = Product::findOrFail($id);
         return view('products.form', compact('product'));
     }
 
@@ -59,9 +63,8 @@ class ProductController extends Controller
      * @param ProductRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update($id, ProductRequest $request)
+    public function update(Product $product, ProductRequest $request)
     {
-        $product = Product::findOrFail($id);
         $product->update($request->validated());
 
         Session::flash('message', 'Product is updated successfully');
@@ -72,11 +75,10 @@ class ProductController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
         try
         {
-            $product = Product::findOrFail($id);
             $product->delete();
             Session::flash('message', 'Product is deleted successfully');
         }
