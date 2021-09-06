@@ -78,6 +78,10 @@ class Cart
             $qty += $content->get($product->id)['qty'];
         }
 
+        if($product->stock < $qty) {
+            return ['error' => 'Product do not have enough stock to buy'];
+        }
+
         //push to cart
         $content->put($product->id, [
             'product_id'    => $product->id,
@@ -89,7 +93,7 @@ class Cart
         //update cart content
         session()->put('cart', $content);
 
-        return true;
+        return ['message' => 'Product is added to cart successfully.', 'total' => $this->total()];
     }
 
     /**

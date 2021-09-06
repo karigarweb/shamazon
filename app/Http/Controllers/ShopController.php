@@ -19,19 +19,31 @@ class ShopController extends Controller
         return view('shop.index', compact('products'));
     }
 
+    /**
+     * delete everything from cart
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function clear()
     {
         Cart::clear();
         return redirect(route('shop'));
     }
 
+    /**
+     * add product to cart
+     * @param AddToCartRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addToCart(AddToCartRequest $request)
     {
-        Cart::add($request->product_id, $request->qty);
-        return response()->json(['message' => true, 'total' => Cart::total()]);
+        $response = Cart::add($request->product_id, $request->qty);
+        return response()->json($response);
     }
 
-
+    /**
+     * view cart details
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function cart()
     {
         $cart = Cart::get();

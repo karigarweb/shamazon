@@ -83,11 +83,19 @@
                 let request = new Request();
                 request.send("post","/shop/add-to-cart" , {product_id:productId, qty:qty}).then((res)=>
                 {
-                    $('#cartTotal').html(res.total);
-                    $('.btn-place-order').removeAttr('disabled')
-                    toastr["success"]("", "Product added to your cart successfully");
+                    if(res.error !== undefined)
+                    {
+                        toastr["error"]("", res.error);
+                    }
+                    else
+                    {
+                        $('#cartTotal').html(res.total);
+                        $('.btn-place-order').removeAttr('disabled')
+                        toastr["success"]("", "Product added to your cart successfully");
+                    }
+
                 }).catch((error) => {
-                    toastr["error"]("Success", error);
+                    toastr["error"]("", error);
                     console.log(error);
                 });
 
